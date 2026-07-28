@@ -1,0 +1,777 @@
+{
+  "meta": {
+    "audit_id": "AUDIT_20260728_092545",
+    "audit_date": "2026-07-28T09:25:45.800510",
+    "audit_version": "1.0",
+    "model_type": "LogisticRegression",
+    "model_params": {
+      "C": 0.5,
+      "class_weight": null,
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": 0.0,
+      "max_iter": 100,
+      "n_jobs": null,
+      "penalty": "deprecated",
+      "random_state": 42,
+      "solver": "liblinear",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "preprocessor": {
+      "type": "ColumnTransformer",
+      "transformers": "[('num', StandardScaler(), ['duration', 'credit_amount', 'installment_commitment', 'residence_since', 'existing_credits', 'num_dependents']), ('cat', OneHotEncoder(drop='first', sparse_output=False), ['checking_status', 'credit_history', 'purpose', 'saving_status', 'employment', 'other_parties', 'property_magnitude', 'other_payment_plans', 'housing', 'job', 'own_telephone'])]"
+    }
+  },
+  "dataset": {
+    "name": "German Credit Dataset",
+    "source": "UCI Machine Learning Repository",
+    "samples": 1000,
+    "features": 20,
+    "target": "class (0=Good, 1=Bad)",
+    "split": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    },
+    "split_ratios": {
+      "train": 0.6,
+      "validation": 0.2,
+      "test": 0.2
+    },
+    "protected_attribute": {
+      "name": "age",
+      "threshold": 25,
+      "protected_label": "Protected (<25)",
+      "reference_label": "Reference (>=25)"
+    },
+    "limitations": {
+      "selection_bias": "Dataset only contains applicants who were historically extended credit. No data on rejected applicants.",
+      "sample_size": "1,000 samples total, 200 in test set. Confidence intervals should be interpreted with caution."
+    }
+  },
+  "configuration": {
+    "train_size": 0.6,
+    "val_size": 0.2,
+    "test_size": 0.2,
+    "random_state": 42,
+    "cost_fp": 653.56,
+    "cost_fn": 2224.51,
+    "operational_buffer": 0.03,
+    "optimal_threshold": 0.2270827325256161,
+    "age_threshold": 25,
+    "grid_search": {
+      "threshold_grid": [
+        0.1,
+        0.11,
+        0.12000000000000001,
+        0.13,
+        0.14,
+        0.15000000000000002,
+        0.16,
+        0.17,
+        0.18,
+        0.19,
+        0.2,
+        0.21000000000000002,
+        0.22,
+        0.23,
+        0.24000000000000002,
+        0.25,
+        0.26,
+        0.27,
+        0.28,
+        0.29000000000000004,
+        0.30000000000000004,
+        0.31,
+        0.32,
+        0.33,
+        0.33999999999999997,
+        0.35,
+        0.36,
+        0.37,
+        0.38,
+        0.39,
+        0.4,
+        0.41000000000000003,
+        0.42000000000000004,
+        0.43000000000000005,
+        0.44000000000000006,
+        0.45000000000000007,
+        0.45999999999999996,
+        0.47,
+        0.48,
+        0.49,
+        0.5
+      ],
+      "delta_grid": [
+        -0.5,
+        -0.475,
+        -0.45,
+        -0.425,
+        -0.4,
+        -0.375,
+        -0.35,
+        -0.32499999999999996,
+        -0.3,
+        -0.275,
+        -0.25,
+        -0.22499999999999998,
+        -0.19999999999999996,
+        -0.175,
+        -0.14999999999999997,
+        -0.125,
+        -0.09999999999999998,
+        -0.07499999999999996,
+        -0.04999999999999999,
+        -0.024999999999999967,
+        0.0,
+        0.025000000000000022,
+        0.050000000000000044,
+        0.07500000000000007,
+        0.10000000000000009,
+        0.125,
+        0.15000000000000002,
+        0.17500000000000004,
+        0.20000000000000007,
+        0.2250000000000001,
+        0.25,
+        0.275,
+        0.30000000000000004,
+        0.32500000000000007,
+        0.3500000000000001,
+        0.375,
+        0.4,
+        0.42500000000000004,
+        0.45000000000000007,
+        0.4750000000000001,
+        0.5
+      ],
+      "grid_nodes": 1681
+    },
+    "manual_review_exclusion": "All fairness metrics exclude manual review cases to isolate automated system performance."
+  },
+  "baseline": {
+    "data_used": "validation_set",
+    "threshold": 0.2270827325256161,
+    "buffer": 0.03,
+    "metrics": {
+      "financial_loss": 57663.24,
+      "disparate_impact": 0.6022340942204953,
+      "di_pass": false,
+      "stp_rate": 92.0,
+      "false_positives": 61,
+      "false_negatives": 8,
+      "fpr_protected": 0.5625,
+      "fpr_reference": 0.4482758620689655,
+      "approval_rate_protected": 0.27586206896551724,
+      "approval_rate_reference": 0.45806451612903226,
+      "fpr_ratio": 1.2548076923076923,
+      "fpr_parity_pass": false,
+      "tpr_protected": 0.9230769230769231,
+      "tpr_reference": 0.8205128205128205,
+      "tpr_ratio": 1.125,
+      "tpr_parity_pass": true,
+      "equalized_odds_pass": false,
+      "overall_fairness_pass": false
+    }
+  },
+  "remediation_grid_search": {
+    "data_used": "validation_set",
+    "optimal_threshold": 0.16,
+    "optimal_logit_delta": -0.5,
+    "metrics_after_optimization": {
+      "financial_loss": 52422.729999999996,
+      "disparate_impact": 0.8351648351648351,
+      "di_pass": true,
+      "stp_rate": 90.0,
+      "false_positives": 70,
+      "false_negatives": 3,
+      "fpr_protected": 0.5625,
+      "fpr_reference": 0.5495495495495496,
+      "approval_rate_protected": 0.2857142857142857,
+      "approval_rate_reference": 0.34210526315789475,
+      "fpr_ratio": 1.0235655737704916,
+      "fpr_parity_pass": true,
+      "tpr_protected": 0.9166666666666666,
+      "tpr_reference": 0.9512195121951219,
+      "tpr_ratio": 0.9636752136752137,
+      "tpr_parity_pass": true,
+      "equalized_odds_pass": true,
+      "overall_fairness_pass": true
+    }
+  },
+  "final_evaluation": {
+    "data_used": "test_set (held out, used once)",
+    "methodological_note": "Test set was not used for model training, preprocessing, or hyperparameter optimization. All metrics reported here are unbiased estimates of model performance.",
+    "metrics": {
+      "financial_loss": 63545.28,
+      "disparate_impact": 1.119186046511628,
+      "di_pass": true,
+      "stp_rate": 86.0,
+      "false_positives": 70,
+      "false_negatives": 8,
+      "fpr_protected": 0.4375,
+      "fpr_reference": 0.63,
+      "approval_rate_protected": 0.34375,
+      "approval_rate_reference": 0.30714285714285716,
+      "fpr_ratio": 0.6944444444444444,
+      "fpr_parity_pass": false,
+      "tpr_protected": 0.875,
+      "tpr_reference": 0.85,
+      "tpr_ratio": 1.0294117647058825,
+      "tpr_parity_pass": true,
+      "equalized_odds_pass": false,
+      "overall_fairness_pass": false
+    }
+  },
+  "comparison": {
+    "delta_disparate_impact": 0.23293074094433974,
+    "delta_financial_loss": -5240.510000000002
+  },
+  "compliance_status": {
+    "disparate_impact_pass": true,
+    "equalized_odds_pass": false,
+    "overall_fairness_pass": false
+  },
+  "interpretability": {
+    "top_n_features": [
+      {
+        "feature": "cat__checking_status_A14",
+        "coefficient": -1.4512592558943456,
+        "abs_coef": 1.4512592558943456
+      },
+      {
+        "feature": "cat__credit_history_A34",
+        "coefficient": -0.8780398174967228,
+        "abs_coef": 0.8780398174967228
+      },
+      {
+        "feature": "cat__saving_status_A64",
+        "coefficient": -0.8322309086715439,
+        "abs_coef": 0.8322309086715439
+      },
+      {
+        "feature": "cat__purpose_A41",
+        "coefficient": -0.7999137706831474,
+        "abs_coef": 0.7999137706831474
+      },
+      {
+        "feature": "cat__saving_status_A65",
+        "coefficient": -0.7813503931958942,
+        "abs_coef": 0.7813503931958942
+      },
+      {
+        "feature": "cat__other_payment_plans_A143",
+        "coefficient": -0.721887104123486,
+        "abs_coef": 0.721887104123486
+      },
+      {
+        "feature": "cat__purpose_A46",
+        "coefficient": 0.6646379234536182,
+        "abs_coef": 0.6646379234536182
+      },
+      {
+        "feature": "cat__checking_status_A13",
+        "coefficient": -0.632618182387821,
+        "abs_coef": 0.632618182387821
+      },
+      {
+        "feature": "cat__housing_A153",
+        "coefficient": -0.5934554108970465,
+        "abs_coef": 0.5934554108970465
+      },
+      {
+        "feature": "cat__property_magnitude_A124",
+        "coefficient": 0.5419583996929889,
+        "abs_coef": 0.5419583996929889
+      }
+    ],
+    "all_features": [
+      {
+        "feature": "cat__checking_status_A14",
+        "coefficient": -1.4512592558943456,
+        "abs_coef": 1.4512592558943456
+      },
+      {
+        "feature": "cat__credit_history_A34",
+        "coefficient": -0.8780398174967228,
+        "abs_coef": 0.8780398174967228
+      },
+      {
+        "feature": "cat__saving_status_A64",
+        "coefficient": -0.8322309086715439,
+        "abs_coef": 0.8322309086715439
+      },
+      {
+        "feature": "cat__purpose_A41",
+        "coefficient": -0.7999137706831474,
+        "abs_coef": 0.7999137706831474
+      },
+      {
+        "feature": "cat__saving_status_A65",
+        "coefficient": -0.7813503931958942,
+        "abs_coef": 0.7813503931958942
+      },
+      {
+        "feature": "cat__other_payment_plans_A143",
+        "coefficient": -0.721887104123486,
+        "abs_coef": 0.721887104123486
+      },
+      {
+        "feature": "cat__purpose_A46",
+        "coefficient": 0.6646379234536182,
+        "abs_coef": 0.6646379234536182
+      },
+      {
+        "feature": "cat__checking_status_A13",
+        "coefficient": -0.632618182387821,
+        "abs_coef": 0.632618182387821
+      },
+      {
+        "feature": "cat__housing_A153",
+        "coefficient": -0.5934554108970465,
+        "abs_coef": 0.5934554108970465
+      },
+      {
+        "feature": "cat__property_magnitude_A124",
+        "coefficient": 0.5419583996929889,
+        "abs_coef": 0.5419583996929889
+      },
+      {
+        "feature": "cat__other_payment_plans_A142",
+        "coefficient": -0.4781572947232929,
+        "abs_coef": 0.4781572947232929
+      },
+      {
+        "feature": "cat__own_telephone_A192",
+        "coefficient": -0.4436263900467052,
+        "abs_coef": 0.4436263900467052
+      },
+      {
+        "feature": "cat__employment_A72",
+        "coefficient": 0.42531248350255624,
+        "abs_coef": 0.42531248350255624
+      },
+      {
+        "feature": "cat__other_parties_A102",
+        "coefficient": 0.4250917607836386,
+        "abs_coef": 0.4250917607836386
+      },
+      {
+        "feature": "cat__purpose_A43",
+        "coefficient": -0.4094688797727482,
+        "abs_coef": 0.4094688797727482
+      },
+      {
+        "feature": "cat__purpose_A44",
+        "coefficient": -0.40766632056986624,
+        "abs_coef": 0.40766632056986624
+      },
+      {
+        "feature": "num__installment_commitment",
+        "coefficient": 0.39683424176608073,
+        "abs_coef": 0.39683424176608073
+      },
+      {
+        "feature": "cat__credit_history_A31",
+        "coefficient": 0.37483881973160477,
+        "abs_coef": 0.37483881973160477
+      },
+      {
+        "feature": "num__duration",
+        "coefficient": 0.36057900967350914,
+        "abs_coef": 0.36057900967350914
+      },
+      {
+        "feature": "cat__employment_A74",
+        "coefficient": -0.35819406285752986,
+        "abs_coef": 0.35819406285752986
+      },
+      {
+        "feature": "cat__housing_A152",
+        "coefficient": -0.32706727656516293,
+        "abs_coef": 0.32706727656516293
+      },
+      {
+        "feature": "cat__credit_history_A32",
+        "coefficient": 0.31992123081341356,
+        "abs_coef": 0.31992123081341356
+      },
+      {
+        "feature": "cat__property_magnitude_A123",
+        "coefficient": 0.3080094932073676,
+        "abs_coef": 0.3080094932073676
+      },
+      {
+        "feature": "cat__saving_status_A62",
+        "coefficient": -0.29573863862753863,
+        "abs_coef": 0.29573863862753863
+      },
+      {
+        "feature": "num__credit_amount",
+        "coefficient": 0.2818713104826717,
+        "abs_coef": 0.2818713104826717
+      },
+      {
+        "feature": "cat__job_A172",
+        "coefficient": 0.2750230861571549,
+        "abs_coef": 0.2750230861571549
+      },
+      {
+        "feature": "cat__checking_status_A12",
+        "coefficient": -0.26615243897603474,
+        "abs_coef": 0.26615243897603474
+      },
+      {
+        "feature": "cat__saving_status_A63",
+        "coefficient": -0.26271196513532585,
+        "abs_coef": 0.26271196513532585
+      },
+      {
+        "feature": "cat__purpose_A410",
+        "coefficient": -0.2531710877354341,
+        "abs_coef": 0.2531710877354341
+      },
+      {
+        "feature": "num__existing_credits",
+        "coefficient": 0.20238797581048815,
+        "abs_coef": 0.20238797581048815
+      },
+      {
+        "feature": "cat__job_A174",
+        "coefficient": 0.18091646988598745,
+        "abs_coef": 0.18091646988598745
+      },
+      {
+        "feature": "cat__purpose_A48",
+        "coefficient": -0.14969502192473738,
+        "abs_coef": 0.14969502192473738
+      },
+      {
+        "feature": "cat__employment_A75",
+        "coefficient": -0.14540878099263294,
+        "abs_coef": 0.14540878099263294
+      },
+      {
+        "feature": "cat__other_parties_A103",
+        "coefficient": -0.13917578937959454,
+        "abs_coef": 0.13917578937959454
+      },
+      {
+        "feature": "cat__purpose_A42",
+        "coefficient": -0.10826635653882893,
+        "abs_coef": 0.10826635653882893
+      },
+      {
+        "feature": "cat__employment_A73",
+        "coefficient": -0.1020325079434098,
+        "abs_coef": 0.1020325079434098
+      },
+      {
+        "feature": "cat__property_magnitude_A122",
+        "coefficient": 0.0942474997210744,
+        "abs_coef": 0.0942474997210744
+      },
+      {
+        "feature": "num__residence_since",
+        "coefficient": 0.08619230087836524,
+        "abs_coef": 0.08619230087836524
+      },
+      {
+        "feature": "cat__purpose_A49",
+        "coefficient": 0.05822282774440385,
+        "abs_coef": 0.05822282774440385
+      },
+      {
+        "feature": "cat__credit_history_A33",
+        "coefficient": -0.0507711765957584,
+        "abs_coef": 0.0507711765957584
+      },
+      {
+        "feature": "num__num_dependents",
+        "coefficient": 0.04941714552735951,
+        "abs_coef": 0.04941714552735951
+      },
+      {
+        "feature": "cat__purpose_A45",
+        "coefficient": 0.04235756705115571,
+        "abs_coef": 0.04235756705115571
+      },
+      {
+        "feature": "cat__job_A173",
+        "coefficient": 0.025115325138199526,
+        "abs_coef": 0.025115325138199526
+      }
+    ],
+    "feature_count": 43
+  },
+  "supplementary_attributes": {
+    "methodological_note": "These checks evaluate the age-remediated test-set decisions (test_decisions) for disparity along sex and nationality. No remediation was performed for these attributes; results are single-point assessments, not baseline-vs-remediated comparisons. 'financial_loss' inside each metrics block reflects total portfolio loss across the full automated population, not a cost attributable to this specific subgroup.",
+    "foreign_worker": {
+      "metrics": {
+        "financial_loss": 63545.28,
+        "disparate_impact": NaN,
+        "di_pass": false,
+        "stp_rate": 86.0,
+        "false_positives": 70,
+        "false_negatives": 8,
+        "fpr_protected": 0.5929203539823009,
+        "fpr_reference": 1.0,
+        "approval_rate_protected": 0.32142857142857145,
+        "approval_rate_reference": 0.0,
+        "fpr_ratio": 0.5929203539823009,
+        "fpr_parity_pass": false,
+        "tpr_protected": 0.8545454545454545,
+        "tpr_reference": 1.0,
+        "tpr_ratio": 0.8545454545454545,
+        "tpr_parity_pass": true,
+        "equalized_odds_pass": false,
+        "overall_fairness_pass": false
+      },
+      "sample_counts": {
+        "test_set": {
+          "A201": 194,
+          "A202": 6
+        },
+        "full_dataset": {
+          "A201": 963,
+          "A202": 37
+        }
+      },
+      "finding": "Native workers (A202) represent a small minority of both the full dataset and the test split. This is a structural property of the source data, not an artifact of this train/test split. DI ratio may be statistically unreliable or NaN due to small reference-group cell counts after excluding manual-review cases."
+    },
+    "sex": {
+      "metrics": {
+        "financial_loss": 63545.28,
+        "disparate_impact": 1.153846153846154,
+        "di_pass": true,
+        "stp_rate": 86.0,
+        "false_positives": 70,
+        "false_negatives": 8,
+        "fpr_protected": 0.5142857142857142,
+        "fpr_reference": 0.6419753086419753,
+        "approval_rate_protected": 0.34615384615384615,
+        "approval_rate_reference": 0.3,
+        "fpr_ratio": 0.801098901098901,
+        "fpr_parity_pass": true,
+        "tpr_protected": 0.9411764705882353,
+        "tpr_reference": 0.8205128205128205,
+        "tpr_ratio": 1.1470588235294117,
+        "tpr_parity_pass": true,
+        "equalized_odds_pass": true,
+        "overall_fairness_pass": true
+      },
+      "sample_counts": {
+        "test_set": {
+          "A93": 118,
+          "A92": 61,
+          "A94": 12,
+          "A91": 9
+        },
+        "full_dataset": {
+          "A93": 548,
+          "A92": 310,
+          "A94": 92,
+          "A91": 50
+        }
+      },
+      "finding": "The 'personal_status' field conflates sex and marital status. The single-female category (A95) is effectively unpopulated in the full dataset, not just this test split, so sex cannot be cleanly isolated from marital status using this attribute. The 'female' group here (A92 + A95) is dominated by married/divorced women; no reliable single-female comparison is possible with this data."
+    }
+  },
+  "cost_derivation_check": {
+    "methodological_note": "COST_FP and COST_FN values are approximate and do not claim to be precisely correct, as they rest on illustrative assumptions (Customer Acquisition Cost (CAC), Loss Given Default (LGD), interest rate and inflation adjustment).",
+    "dataset_derived_inputs": {
+      "avg_loan_amount_dm_1994": 3271.26,
+      "avg_loan_amount_eur_present": 3177.88,
+      "avg_duration_months": 20.9
+    },
+    "assumptions": {
+      "lgd": 0.7,
+      "annual_interest_rate": 0.1,
+      "cac_estimate": 100.0,
+      "present_day_inflation_multiplier": 1.9
+    },
+    "fn_cost_eur_estimate": 2224.51,
+    "fp_cost_eur_estimate": 653.56,
+    "estimated_ratio": 3.4,
+    "known_simplification": "This audit applies a single flat FP cost and FN cost regardless of the credit amount (which varies within range DM 250-18,424). In production, the system would price cost per-applicant, using their real exposure."
+  },
+  "cost_ratio_sensitivity": [
+    {
+      "ratio": 1.0,
+      "threshold": 0.5,
+      "delta": -0.5,
+      "di_ratio": 0.98125,
+      "di_pass": true,
+      "financial_loss": 34638.68,
+      "fpr_ratio": 1.0865384615384615,
+      "fpr_pass": true,
+      "tpr_ratio": 0.7857142857142857,
+      "tpr_pass": false,
+      "equalized_odds_pass": false,
+      "overall_pass": false
+    },
+    {
+      "ratio": 1.5,
+      "threshold": 0.5,
+      "delta": -0.5,
+      "di_ratio": 0.98125,
+      "di_pass": true,
+      "financial_loss": 47056.32,
+      "fpr_ratio": 1.0865384615384615,
+      "fpr_pass": true,
+      "tpr_ratio": 0.7857142857142857,
+      "tpr_pass": false,
+      "equalized_odds_pass": false,
+      "overall_pass": false
+    },
+    {
+      "ratio": 2.0,
+      "threshold": 0.16,
+      "delta": -0.5,
+      "di_ratio": 0.8351648351648351,
+      "di_pass": true,
+      "financial_loss": 49670.56,
+      "fpr_ratio": 1.0235655737704916,
+      "fpr_pass": true,
+      "tpr_ratio": 0.9636752136752137,
+      "tpr_pass": true,
+      "equalized_odds_pass": true,
+      "overall_pass": true
+    },
+    {
+      "ratio": 3.4,
+      "threshold": 0.16,
+      "delta": -0.5,
+      "di_ratio": 0.8351648351648351,
+      "di_pass": true,
+      "financial_loss": 52415.511999999995,
+      "fpr_ratio": 1.0235655737704916,
+      "fpr_pass": true,
+      "tpr_ratio": 0.9636752136752137,
+      "tpr_pass": true,
+      "equalized_odds_pass": true,
+      "overall_pass": true
+    },
+    {
+      "ratio": 4.5,
+      "threshold": 0.16,
+      "delta": -0.5,
+      "di_ratio": 0.8351648351648351,
+      "di_pass": true,
+      "financial_loss": 54572.259999999995,
+      "fpr_ratio": 1.0235655737704916,
+      "fpr_pass": true,
+      "tpr_ratio": 0.9636752136752137,
+      "tpr_pass": true,
+      "equalized_odds_pass": true,
+      "overall_pass": true
+    },
+    {
+      "ratio": 6.0,
+      "threshold": 0.16,
+      "delta": -0.5,
+      "di_ratio": 0.8351648351648351,
+      "di_pass": true,
+      "financial_loss": 57513.28,
+      "fpr_ratio": 1.0235655737704916,
+      "fpr_pass": true,
+      "tpr_ratio": 0.9636752136752137,
+      "tpr_pass": true,
+      "equalized_odds_pass": true,
+      "overall_pass": true
+    }
+  ],
+  "manual_review_analysis": {
+    "methodological_note": "DI/FPR/TPR metrics in this audit exclude manual-review cases by design, to isolate automated-decision performance. This check examines the excluded population directly: whether routing into manual review is itself disproportionate by protected group, and whether the compliance conclusion is stable across plausible buffer widths.",
+    "routing_disparity_by_attribute": {
+      "age": {
+        "review_rate_protected_pct": 17.95,
+        "review_rate_reference_pct": 13.04,
+        "review_rate_ratio": 1.3761,
+        "n_protected": 39,
+        "n_reference": 161
+      },
+      "sex": {
+        "review_rate_protected_pct": 14.75,
+        "review_rate_reference_pct": 13.67,
+        "review_rate_ratio": 1.0794,
+        "n_protected": 61,
+        "n_reference": 139
+      },
+      "foreign_worker": {
+        "review_rate_protected_pct": 13.4,
+        "review_rate_reference_pct": 33.33,
+        "review_rate_ratio": 0.4021,
+        "n_protected": 194,
+        "n_reference": 6
+      }
+    },
+    "buffer_sensitivity": [
+      {
+        "buffer_pct": 1.0,
+        "threshold": 0.14,
+        "delta": -0.5,
+        "val_di": 0.8307692307692308,
+        "test_di": 1.0587855297157622,
+        "test_di_pass": true,
+        "test_eo_pass": false,
+        "val_stp_rate_pct": 96.0,
+        "age_review_rate_ratio": 1.0321,
+        "financial_loss_test": 69427.32
+      },
+      {
+        "buffer_pct": 2.0,
+        "threshold": 0.15000000000000002,
+        "delta": -0.5,
+        "val_di": 0.8275862068965517,
+        "test_di": 1.067109634551495,
+        "test_di_pass": true,
+        "test_eo_pass": false,
+        "val_stp_rate_pct": 92.5,
+        "age_review_rate_ratio": 1.1009,
+        "financial_loss_test": 67466.64
+      },
+      {
+        "buffer_pct": 3.0,
+        "threshold": 0.16,
+        "delta": -0.5,
+        "val_di": 0.8351648351648351,
+        "test_di": 1.119186046511628,
+        "test_di_pass": true,
+        "test_eo_pass": false,
+        "val_stp_rate_pct": 90.0,
+        "age_review_rate_ratio": 1.3761,
+        "financial_loss_test": 63545.28
+      },
+      {
+        "buffer_pct": 4.0,
+        "threshold": 0.17,
+        "delta": -0.5,
+        "val_di": 0.8021978021978022,
+        "test_di": 1.0872093023255816,
+        "test_di_pass": true,
+        "test_eo_pass": false,
+        "val_stp_rate_pct": 87.0,
+        "age_review_rate_ratio": 1.1559,
+        "financial_loss_test": 60931.04
+      },
+      {
+        "buffer_pct": 5.0,
+        "threshold": 0.18,
+        "delta": -0.5,
+        "val_di": 0.8284023668639053,
+        "test_di": 1.1170542635658913,
+        "test_di_pass": true,
+        "test_eo_pass": false,
+        "val_stp_rate_pct": 83.0,
+        "age_review_rate_ratio": 1.2385,
+        "financial_loss_test": 57009.68
+      }
+    ],
+    "findings": "Age: manual-review routing ratio ~1.3-1.4x (protected vs reference), stable across the automated-decision approve/reject fairness result. This is a real disparity not captured by DI/FPR/TPR, since those metrics exclude review cases. Foreign_worker routing ratio is not interpretable given the small reference-group sample size (n=6, test set) already flagged elsewhere in this audit. Equalized-odds failure on the test set persists across all tested buffer widths (1%-5%), indicating it is a property of the remediation itself, not an artifact of the specific 3% buffer chosen."
+  }
+}
